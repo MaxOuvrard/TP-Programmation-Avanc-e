@@ -47,7 +47,7 @@ Stockage : 256Go
 <p style="text-align:justify;">
 Nous pouvons donc voir ici que malgré les différences d'appareil, nous avons tout de même des similarités. En effet, nous voyons que chacun possède un processeur, de la mémoire (RAM), une carte graphique. Cela fait partie des composants essentiels dans un appareil informatique. 
 
-### Comment fonctionne un processeur ?
+### De quoi est composé un processeur ?
 
 Dans la description du PC, nous pouvons apercevoir la présence des mots threads et coeurs. Mais à quoi cela correspond ? \
 Les processeurs sont des unités permettant de faire des calculs. Afin qu'un pc soit puissant, il est nécessaire qu'il soit capable de réaliser de nombreux calculs en même temps. Le nombre de coeurs représente donc le nombre de tâches que le pc est capable de réaliser en même temps.
@@ -57,3 +57,19 @@ Un tread cependant ce sont des instructions qui vont être traitées par le proc
 Connaitre ces défénitions et ses principes nous permettent de réfléchir à une nouvelle manière de réfléchir le code, une façon d'utiliser ces différentes méthodes de calculs. Cette méthode se nomme la programmation répartie.
 <p>
 
+## TD/TP 1 - Thread Java
+
+<p style="text-align:justify;">
+Dans ce premier TD, l'objectif est de comprendre le fonctionnement des threads en visionnant cela graphiquement. Pour ce faire, le TD nous demande de créer un module qui est dans une fenêtre et qui se déplace de gauche à droite. Nous avons donc les objets fenêtre, Mobile et Thread.
+
+Afin de pouvoir avoir cela, je créé la classe UnMobile abstraction de mon objet mobile. Je crée la classe UneFenetre abstraction de l'objet Fenêtre.
+
+![OUI](img/UML.png)
+
+
+## TD/TP 2 - Sémaphore
+
+
+
+
+## TD/TP 3 - Modèle producteur consommateur
