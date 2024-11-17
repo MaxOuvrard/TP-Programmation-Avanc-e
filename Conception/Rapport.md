@@ -62,14 +62,37 @@ Connaitre ces défénitions et ses principes nous permettent de réfléchir à u
 <p style="text-align:justify;">
 Dans ce premier TD, l'objectif est de comprendre le fonctionnement des threads en visionnant cela graphiquement. Pour ce faire, le TD nous demande de créer un module qui est dans une fenêtre et qui se déplace de gauche à droite. Nous avons donc les objets fenêtre, Mobile et Thread.
 
-Afin de pouvoir avoir cela, je créé la classe UnMobile abstraction de mon objet mobile. Je crée la classe UneFenetre abstraction de l'objet Fenêtre.
+Afin de pouvoir avoir cela, je créé la classe UnMobile abstraction de mon objet mobile. Je crée la classe UneFenetre abstraction de l'objet Fenêtre. Je créé la classe TpMobile abstraction du projet. 
+<p>
 
-![OUI](img/UML.png)
+![Diagramme UML de conception du TD1](img/TD1.png)
+Figure 1 - Diagramme UML de conception du TD1
 
+<p style="text-align:justify;">
+Sur la figure 1 ci-dessus, nous pouvons voir le domaine du problème ainsi que la conception pour réaliser ce projet. Nous pouvons observer que la classe UneFenetre hérite de la classe JFrame, elle dépend de la classe Thread et est associé à UnMobile dans une relation navigable de UneFenetre vers UnMobile. 
+La classe UnMobile dépend de la classe JPanel et utilise l'interface Runnable.
+
+Dans une version plus poussée du projet, plusieurs mobiles sont ajoutés et un verrou MUTEX est mis en place pour créer une section critique dans laquelle un seul mobile peut passer à la fois.
+<p>
 
 ## TD/TP 2 - Sémaphore
 
+<p style="text-align:justify;">
 
+Dans ce second TP, l'objectif est de comprendre plusieurs notions comme le verrou MUTEX, les sémaphores, les ressources critiques et les sections critiques. Afin de comprendre cela nous allons donc regarder l'ordre des tâches exécutées par le processeur lors d'un calcul. Pour cela nous allons simuler une section critique, c'est à dire, une zone où seulement un thread peut être exécuté. 
+
+Pour cela, nous allons créer 3 classes, une classe Semaphore abstraction de l'objet Sémaphore, une classe SemaphoreBinaire abstraction de l'objet SemaphoreBinaire et Affichage afin de pouvoir visualiser le problème.
+<p>
+
+![Diagramme UML de la conception des semaphores](img/TD2.png)
+
+Figure 2 - Diagramme UML de la conception des semaphores
+
+<p style="text-align:justify;">
+Dans ce diagramme, nous pouvons obeserver que la classe Affichage depend de la classe Thread et qu'un lien d'associativité unique relie la classe Affichage vers SemaphoreBinaire. La classe SemaphoreBinaire dépend de la classe Semaphore.
+
+Après execution de ce code, nous pouvons voir que le sémaphore permet de contrôler la section critique. En donnant à la variable valeur un numéro, elle permet de donner le statut du Thread afin de connaitre son statut, traitée ou non. Cela permet de mettre en attente les Threads qui ne sont pas encore traité. Quand la section critique est libre, un autre Thread peut y aller, ce qui changera son statut et sa valeur.
 
 
 ## TD/TP 3 - Modèle producteur consommateur
+
