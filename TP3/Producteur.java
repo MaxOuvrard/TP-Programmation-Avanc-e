@@ -1,29 +1,21 @@
-import java.util.Scanner;
-
-public class Producteur extends Thread {
+public class Producteur implements Runnable {
     private BAL bal;
 
     public Producteur(BAL bal) {
         this.bal = bal;
     }
 
-    @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
         try {
+            int count = 0;
             while (true) {
-                System.out.print("Entrez une lettre à déposer (ou 'Q' pour quitter) : ");
-                String lettre = scanner.nextLine();
-                bal.deposer(lettre);
-                if ("Q".equals(lettre)) {  // Arrêt lorsque la lettre est 'Q'
-                    break;
-                }
-                Thread.sleep(1000);  // Simule un délai entre chaque dépôt
+                String lettre = "Lettre " + count++;
+                bal.depose(lettre);
+                System.out.println("[" + Thread.currentThread().getName() + "] a déposé : " + lettre);
+                Thread.sleep(1000); 
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            scanner.close();
+            System.out.println("[" + Thread.currentThread().getName() + "] je m'arrête");
         }
     }
 }

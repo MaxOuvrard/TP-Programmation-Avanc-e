@@ -1,23 +1,19 @@
-class Lecteur extends Thread {
+public class Lecteur implements Runnable {
     private BAL bal;
 
     public Lecteur(BAL bal) {
         this.bal = bal;
     }
 
-    @Override
     public void run() {
         try {
             while (true) {
-                String lettre = bal.retirer();
-                if ("Q".equals(lettre)) {  // Arrêt lorsque la lettre est 'Q'
-                    System.out.println("Consommateur : Arrêt reçu, fin du programme.");
-                    break;
-                }
-                Thread.sleep(2000);  // Simule un délai pour le traitement de la lettre
+                String lettre = bal.retire();
+                System.out.println("[" + Thread.currentThread().getName() + "] a retiré : " + lettre);
+                Thread.sleep(2000); // Attendre 2 secondes avant de consommer une nouvelle lettre
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            System.out.println("[" + Thread.currentThread().getName() + "] je m'arrête");
         }
     }
 }

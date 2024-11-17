@@ -96,3 +96,21 @@ Après execution de ce code, nous pouvons voir que le sémaphore permet de contr
 
 ## TD/TP 3 - Modèle producteur consommateur
 
+<p style="text-align:justify;">
+Dans ce troisième et dernier TP de ce rapport, nou sallons chercher à comprendre le modèle producteur consammateur. Pour cela, nous allons prendre l'exemple d'une boite aux lettres, ainsi que les lettres qui la compose. Le projet est de déposer et retirer des lettres, en prenant en compte que la boite aux lettres ne peut accueillir qu'une seule lettre.
+
+Nous allons donc créer trois classes : la classe BAL abstraction de l'objet boite aux lettres, une classe Producteur abstraction de l'action de poser une lettre et Lecteur, abstraction de l'action de retirer une lettre.
+
+ATTENTION : Le code présent dans le TP3 a été réalisé avec l'appui de l'IA Mistral
+
+![Diagramme UML de conception de la boite aux lettres](img/TD3.png)
+
+Figure 3 - Diagramme UML de conception de la boite aux lettres
+
+Sur la figure 3, nous pouvons apercevoir que la classe Producteur implémente et dépend de l'interface Runnable et a un lien d'associativité navigable de Producteur à BAL. La classe Lecteur Possède le même lien qu'entre Producteur et BAL mais dépend de l'interface.
+
+Nous venons donc de voir un modèle de programmation parrallèle.
+
+## Conclusion 
+
+Dans ce rapport nous avons donc approcher par la conception les premiers éléments de la programmation répartie.

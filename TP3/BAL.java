@@ -1,25 +1,22 @@
 public class BAL {
-    private String lettre = null;  // La lettre dans la BAL, initialement vide
+    private String lettre;
+    private boolean disponible = false;
 
-    // Méthode pour déposer une lettre
-    public synchronized void deposer(String lettre) throws InterruptedException {
-        while (this.lettre != null) {  // Attente si la BAL contient déjà une lettre
+    public synchronized void depose(String lettre) throws InterruptedException {
+        while (disponible) {
             wait();
         }
         this.lettre = lettre;
-        System.out.println("Producteur : Lettre '" + lettre + "' déposée.");
-        notifyAll();  // Notifie le consommateur qu'une lettre est disponible
+        disponible = true;
+        notifyAll();
     }
 
-    // Méthode pour retirer une lettre
-    public synchronized String retirer() throws InterruptedException {
-        while (this.lettre == null) {  // Attente si la BAL est vide
+    public synchronized String retire() throws InterruptedException {
+        while (!disponible) {
             wait();
         }
-        String lettreRetiree = this.lettre;
-        this.lettre = null;
-        System.out.println("Consommateur : Lettre '" + lettreRetiree + "' retirée.");
-        notifyAll();  // Notifie le producteur que la BAL est vide
-        return lettreRetiree;
+        disponible = false;
+        notifyAll();
+        return lettre;
     }
 }
