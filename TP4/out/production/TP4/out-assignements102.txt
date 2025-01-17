@@ -1,0 +1,4 @@
+Available processors: 8, Time Duration: 32ms, nThrows: 100000
+Available processors: 8, Time Duration: 31ms, nThrows: 100000
+Available processors: 8, Time Duration: 16ms, nThrows: 1000
+Available processors: 8, Time Duration: 313ms, nThrows: 1000000
