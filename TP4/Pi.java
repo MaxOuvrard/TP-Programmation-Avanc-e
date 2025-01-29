@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Approximates PI using the Monte Carlo method.  Demonstrates
@@ -17,7 +19,7 @@ public class Pi
     {
 	long total=0;
 	// 10 workers, 50000 iterations each
-	total = new Master().doRun(50000, 10);
+	total = new Master().doRun(1000000, 12);
 	System.out.println("total from Master = " + total);
     }
 }
@@ -64,7 +66,21 @@ class Master {
 
 	System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
 
+	try {
+		FileWriter writer = new FileWriter("out-pi3.txt", true);
+		writer.write(
+				"" + (totalCount*numWorkers) + " " +
+				(stopTime - startTime) + " " + 
+				(Math.abs((pi - Math.PI)) / Math.PI) + " " +
+				numWorkers + "\n");
+		writer.close();
+	} catch (IOException e) {
+		System.out.println("An error occurred while writing to the file.");
+		e.printStackTrace();
+	}
+
 	exec.shutdown();
+
 	return total;
     }
 }

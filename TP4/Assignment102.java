@@ -4,7 +4,7 @@ import java.io.IOException;
 public class Assignment102 {
 
 	public static void main(String[] args) {
-		PiMonteCarlo PiVal = new PiMonteCarlo(100000000);
+		PiMonteCarlo PiVal = new PiMonteCarlo(10000000);
 		long startTime = System.currentTimeMillis();
 		double value = PiVal.getPi();
 		long stopTime = System.currentTimeMillis();
@@ -17,7 +17,7 @@ public class Assignment102 {
 		try {
 			FileWriter writer = new FileWriter("out-assignements102.txt", true);
 			writer.write(
-					Runtime.getRuntime().availableProcessors() + "\n" +
+					"" + Runtime.getRuntime().availableProcessors() + "\n" +
 					(stopTime - startTime) + "\n" +
 					PiVal.nThrows + "\n");
 			writer.close();
