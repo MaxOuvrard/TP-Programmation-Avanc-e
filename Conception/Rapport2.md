@@ -29,3 +29,29 @@ La probabilité que Xp soit dans le cercle est p =
 ### Mise en oeuvre
 
 ![Diagramme Pi Monte Carlo](img/PiMonteCarlo.png)
+
+### Analyse MasterSocket.java
+
+Étapes principales dans le code
+- **Initialisation des workers** :
+    - Le master demande combien de workers (processus) seront utilisés. Il ouvre un socket (canal de communication) pour chaque worker sur un port donné.
+- **Envoi des tâches aux workers** :
+    - Chaque worker reçoit le nombre total de points à générer pour l'estimation de 𝜋.
+
+- **Traitement par les workers** :
+    - Les workers génèrent des points aléatoires dans un carré, comptent ceux qui tombent dans un quart de cercle et renvoient leurs résultats au master.
+
+- **Récupération des résultats** :
+    - Le master collecte les résultats des workers via leurs sockets respectifs.
+    - Il combine ces résultats pour calculer la valeur approximative de 𝜋.
+
+- **Affichage des résultats** :
+    - Le master affiche 𝜋, l'erreur relative, et les statistiques de performance (durée, nombre de points, etc.).
+    - L'utilisateur peut choisir de répéter la simulation.
+
+- **Fermeture des sockets** :
+    - Une fois la simulation terminée, les sockets entre le master et les workers sont fermés proprement.
+
+Sockets : 
+- **Socket côté master** : Utilisé pour envoyer des tâches et recevoir des résultats.
+- **Socket côté worker (non montré ici)** : Écoute les messages du master, exécute la tâche, puis renvoie le résultat.
