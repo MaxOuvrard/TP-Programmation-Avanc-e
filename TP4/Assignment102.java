@@ -17,8 +17,8 @@ public class Assignment102 {
 		try {
 			FileWriter writer = new FileWriter("out-assignements102.txt", true);
 			writer.write(
-					"" + Runtime.getRuntime().availableProcessors() + "\n" +
-					(stopTime - startTime) + "\n" +
+					"" + Runtime.getRuntime().availableProcessors() + " " +
+					(stopTime - startTime) + " " +
 					PiVal.nThrows + "\n");
 			writer.close();
 		} catch (IOException e) {
