@@ -110,35 +110,33 @@ Algorithme 2 :
 
 Algorithme 3:
 
+Le Master Worker :
+
 ## III. Mise en oeuvre
 
 ![Diagramme Pi Monte Carlo](img/PiMonteCarlo.png)
 
-### Analyse MasterSocket.java
+### Analyse PiMonteCarlo.java
 
-Étapes principales dans le code
-- **Initialisation des workers** :
-    - Le master demande combien de workers (processus) seront utilisés. Il ouvre un socket (canal de communication) pour chaque worker sur un port donné.
-- **Envoi des tâches aux workers** :
-    - Chaque worker reçoit le nombre total de points à générer pour l'estimation de 𝜋.
+- **Initialisation** :
+  - `PiMonteCarlo` initialisé avec `nThrows` (nombre total de points).
+  - `nAtomSuccess` compte les points dans un quart de cercle.
 
-- **Traitement par les workers** :
-    - Les workers génèrent des points aléatoires dans un carré, comptent ceux qui tombent dans un quart de cercle et renvoient leurs résultats au master.
+- **Génération de Points** :
+  - Classe `MonteCarlo` génère des points aléatoires `(x, y)`.
+  - Incrémente `nAtomSuccess` si `x² + y² ≤ 1`.
 
-- **Récupération des résultats** :
-    - Le master collecte les résultats des workers via leurs sockets respectifs.
-    - Il combine ces résultats pour calculer la valeur approximative de 𝜋.
+- **Exécution Concurrente** :
+  - `getPi` utilise tous les processeurs pour exécuter `MonteCarlo`.
+  - Attend la fin des tâches.
 
-- **Affichage des résultats** :
-    - Le master affiche 𝜋, l'erreur relative, et les statistiques de performance (durée, nombre de points, etc.).
-    - L'utilisateur peut choisir de répéter la simulation.
+- **Calcul de π** :
+  - Estime π avec `4 * (succès / total)`.
 
-- **Fermeture des sockets** :
-    - Une fois la simulation terminée, les sockets entre le master et les workers sont fermés proprement.
+- **Retour de la Valeur** :
+  - Retourne la valeur estimée de π.
 
-Sockets : 
-- **Socket côté master** : Utilisé pour envoyer des tâches et recevoir des résultats.
-- **Socket côté worker (non montré ici)** : Écoute les messages du master, exécute la tâche, puis renvoie le résultat.
+### Analyse Assigment102.java
 
 ## IV. Calcul de performances
 
@@ -153,5 +151,45 @@ Sockets :
 ## V. Analyse des erreurs
 
 ## VI. Socket
+
+### Analyse MasterSocket.java
+
+### 1. Initialisation
+- Le master demande combien de workers (processus) seront utilisés et ouvre un socket pour chacun.
+
+### 2. Distribution des Tâches
+- Chaque worker reçoit le nombre total de points à générer pour estimer π.
+
+### 3. Calcul par les Workers
+- Les workers génèrent des points aléatoires dans un carré, comptent ceux qui tombent dans un quart de cercle, et renvoient leurs résultats au master.
+
+### 4. Collecte des Résultats
+- Le master récupère les résultats des workers et les combine pour estimer π.
+
+### 5. Affichage des Résultats
+- Le master affiche la valeur de π, l'erreur relative, et les statistiques de performance.
+
+### 6. Fermeture
+- Les sockets entre le master et les workers sont fermés proprement après la simulation.
+
+### Analyse WorkerSocket.java
+
+### Initialisation 
+  - Le worker s'initialise en configurant un socket serveur sur un port spécifié. Il attend une connexion du master.
+
+### Distribution des Tâches 
+- Le worker lit le nombre total de points à générer à partir du master.
+
+### Calcul 
+- Le worker calcule le nombre de points qui tombent dans un quart de cercle en utilisant la méthode de Monte Carlo.
+
+### Collecte des Résultats
+- Le worker envoie le résultat calculé au master.
+
+### Affichage des Résultats 
+- Cette étape est gérée par le master, qui collecte et affiche les résultats finaux.
+
+### Fermeture des Connexions
+- Après le calcul et l'envoi des résultats, le worker ferme tous les sockets et flux pour libérer les ressources.
 
 ## Conclusion
