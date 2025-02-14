@@ -6,8 +6,8 @@ import java.net.*;
  * 
  */
 public class MasterSocket {
-	static int maxServer = 8;
-	static final int[] tab_port = { 25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552 };
+	static int maxServer = 12;
+	static final int[] tab_port = { 25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552, 25553, 25554, 25556, 25557, 25558, 2559 };
 	static String[] tab_total_workers = new String[maxServer];
 	static final String ip = "127.0.0.1";
 	static BufferedReader[] reader = new BufferedReader[maxServer];
@@ -17,7 +17,7 @@ public class MasterSocket {
 	public static void main(String[] args) throws Exception {
 
 		// MC parameters
-		int totalCount = 16000000; // total number of throws on a Worker
+		int totalCount = 1000000; // total number of throws on a Worker
 		int total = 0; // total number of throws inside quarter of disk
 		double pi;
 
@@ -98,6 +98,13 @@ public class MasterSocket {
 
 			System.out.println("\n Repeat computation (y/N): ");
 			try {
+				FileWriter writer = new FileWriter("out-socket.txt", true);
+				writer.write(
+						"" + (totalCount*numWorkers) + " " +
+						(stopTime - startTime) + " " + 
+						(Math.abs((pi - Math.PI)) / Math.PI) + " " +
+						numWorkers + "\n");
+				writer.close();
 				message_repeat = bufferRead.readLine();
 				System.out.println(message_repeat);
 			} catch (IOException ioE) {

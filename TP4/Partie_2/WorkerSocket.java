@@ -1,7 +1,7 @@
 
 import java.io.*;
 import java.net.*;
-import TP4.Partie_2.Master;
+
 
 /**
  * Worker is a server. It computes PI by Monte Carlo method and sends
