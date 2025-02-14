@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-import java.util.concurrent.Semaphore;
 
 class UnMobile extends JPanel implements Runnable {
     int saLargeur, saHauteur, sonDebDessin;
