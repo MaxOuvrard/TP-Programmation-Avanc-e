@@ -91,6 +91,10 @@ point = (cmpt / nb_point) * 4
 
 ## II. Parallélisation
 
+Dans cette partie, nous allons chercher à paralléliser l'algorithme pour calculer pi avec la méthode de Monte Carlo. Pour ce faire, nous allons réaliser un descriptif des tâches, puis nous chercherons à faire plusieurs nouveaux algorithmes afin de trouver la méthode qui semble la plus optimisé en parallélisation.
+
+Débutons la parallélisation :
+
 On choisit un modèle de parallélisme de tâches.
 
 - Tâches :
@@ -107,10 +111,87 @@ On choisit un modèle de parallélisme de tâches.
 
 Algorithme 2 :
 
+```text
+boucle parallèle de 0 à n_total
+    x = aléatoire(0,1)
+    y = aléatoire(0,1)
+    si x^2 + y^2 <= 1 alors
+        n_cible++
+    fin si
+fin boucle parallèle
+pi = (n_cible / n_total) * 4
+```
+Le code ci-dessous, l'algorithme 2, présente une version parallélisée de l'algorithme 1. Mais comment avons nous réussi à paralléliser ce programme ? 
+
+Pour cela nous avons créer trois choses : une boucle parallèle, une section critique et une ressource critique. 
+
+La boucle parallèle, clairement indiquée dans l'algorithme, permet à plusieurs itérations de pouvoir s'exécuter en même temps. 
+
+La section critique correspond à l’incrémentation de n_cible, qui est une opération partagée entre plusieurs itérations de la boucle parallèle. Comme plusieurs threads peuvent tenter de modifier cette variable simultanément.
+
+La ressource critique est la variable n_cible, qui stocke le nombre total de points tombant à l’intérieur du quart de cercle. Puisqu’elle est partagée entre toutes les instances parallèles du programme, c'est cette ressource qui créé la section critique.
 
 Algorithme 3:
 
+```text
+boucle parallèle de 0 à n_total/100
+    boucle de 0 à 100
+        x = aléatoire(0,1)
+        y = aléatoire(0,1)
+        si x^2 + y^2 <= 1 alors
+            n_cible++
+        fin si
+    fin boucle
+fin boucle
+pi = (n_cible / n_total) * 4
+```
+Le code ci-dessus, l'algorithme 3, présente une version parallélisée de l'algorithme 1. 
+
+Nous avons créé, comme pour l'algorithme 2, trois choses : une boucle parallèle, une section critique et une ressource critique.
+
+La boucle parallèle, permet toujours d’exécuter plusieurs itérations simultanément à la seule différence ici que chaque itération de cette boucle génère 100 points aléatoires, au lieu de un seul, et vérifie s’ils appartiennent au quart de cercle unité.
+
+La section critique correspond à l’incrémentation de n_cible, qui compte le nombre total de points à l'intérieur du cercle.
+
+La ressource critique est la variable n_cible.
+
+Cette version permet de réduire les accès concurrents à la ressource critique.
+
 Le Master Worker :
+
+Tout d'abord, rappelons ce qu'est le paradigme Master/Worker et comment il fonctionne. Le paradigme Master-Worker est un modèle de programmation parallèle où le Master divise le travail en plusieurs tâches et les distribue aux Workers.
+
+Les Workers exécutent ces tâches indépendamment et renvoient les résultats au Master.
+
+Le Master récupère, combine et finalise les résultats.
+
+Voici un dessin montrant comment fonctionne ce paradigme :
+
+![Dessin paradigme Master/Worker]()
+
+Sur ce schéma, nous pouvons observer que le master est seul et qu'il envoie à plusieurs Worker des données et tâches à réaliser. Une fois ces tâches réalisées par les Workers, ils les renvoient vers le Master qui récolte les données calculées.
+
+Voici le code : 
+
+```text
+nb_workers = 100
+nb_point = n_total / nb_workers
+ncible[nb_workers]
+boucle pour de i allant de 0 à nb_point-1
+    xi = aléatoire(0,1)
+    yi = aléatoire(0,1)
+    si dans quart de cercle
+      ncible[k]++
+    fin si
+fin boucle pour
+n_cible = sum(ncibles);
+pi = 4 * n_cible / n_tot;
+```
+
+Chaque worker génère des points et compte ceux qui sont présent dans l'arc de cercle.
+On effectue une réduction parallèle pour sommer les résultats.
+Enfin, π est calculé à partir du rapport des points dans le cercle.
+Ce code est plus efficace que les autres car chaque worker effectue des calculs indépendants, et seule l'opération de somme nécessite une synchronisation.
 
 ## III. Mise en oeuvre
 
