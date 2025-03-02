@@ -16,60 +16,50 @@ Qualité de développement (IN5R08A). L'objectif de celui-ci est de présenter l
 ### Les outils utilisés
 
 <p style="text-align:justify;">
-Afin de réaliser ce document, les outils utilisés sont les différents supports de cours, les notes pruses en cours, les sujets de TD/TP afin de reprendre les morceaux de codes fournis et les notes prises en cours, certains points seront appuyés de schéma réalisés en cours. De plus, internet est un outil utilisé afin de confimer ou infirmer certaines interrogations. L'utilisation de l'Intelligence Artificielle peut être employée mais uniquement dans le cas d'une reformulation de paragraphe. Son utilisation sera notifiée, dans le cas où elle est utilisée dans le document, par un message au dessus du paragraphe retravaillé informatiquement.
-<p>
+Afin de réaliser ce document, les outils utilisés sont les différents supports de cours, les notes prises en cours, les sujets de TD/TP afin de reprendre les morceaux de codes fournis et les notes prises en cours, certains points seront appuyés de schéma réalisés en cours. De plus, internet est un outil utilisé afin de confimer ou infirmer certaines interrogations. L'utilisation de l'Intelligence Artificielle a été utilisé afin de corriger les erreurs d'orthographes et peut être employée autrement mais uniquement dans le but d'une reformulation de paragraphe. Pour toute utilisation de reformulation, elle sera notifiée, dans le cas où elle est utilisée dans le document, par un message au dessus du paragraphe retravaillé informatiquement.
+</p>
 
 ## TD et TP Monte Carlo
-
-### Etude de la méthode de Monte Carlo
 
 <p style="text-align:justify;">
 
 ## I. Généralités
 
-I. Généralités
+<p style="text-align:justify;">
+La méthode de Monte Carlo est une technique qui utilise des simulations aléatoires pour résoudre des problèmes compliqués. L’idée principale est de répéter plusieurs fois une expérience aléatoire et de tirer une estimation du résultat recherché. Ici, nous allons chercher une estimation de pi, en cherchant à savoir combien de points tombent dans la surface d'un arc de cercle dans un plan.
+</p>
+<p style="text-align:justify;">
+Dans le domaine scientifique, cette méthode est présente dans de nombreuses disciplines. En physique, elle permet de simuler le comportement des particules en mécanique quantique ou en physique nucléaire. En finance, elle sert à prévoir l’évolution des marchés et à évaluer les risques des investissements. Elle est aussi appliquée en ingénierie, notamment pour tester la fiabilité des structures comme les ponts ou les avions face aux aléas extérieurs. Ce ne sont que quelques exemples parmi tant d'autres.
+</p>
+<p style="text-align:justify;">
+Dans les casinos, la méthode de Monte Carlo est utilisée pour analyser les probabilités de gains dans des jeux comme la roulette, le poker ou les machines à sous. Elle permet aussi d’optimiser certaines stratégies de jeu, en testant des milliers de scénarios pour voir quelles décisions donnent les meilleurs résultats à long terme.
+</p>
 
-Utilisé au casino et au calcul scientifique.
+A présent penchons nous sur la méthode de Monte Carlo pour calculer pi.
 
 ![Quart de cercle](https://via.placeholder.com/150)
 
 Pour $\pi$ :
 
-
-
 $d = \sqrt{x^2 + y^2}$
 
 $\pi \approx \frac{x}{r} \cdot \frac{y}{r} \cdot n$
 
-La probabilité que $x_p$ soit dans le cercle où :
+La probabilité que $x_p$ soit dans le cercle est : p = $\frac{\frac{\pi r²} {4}} {r²}$ = $\frac{\pi} {4}$
 
+Soit $\pi$ à la n-ième. Soit $P(x_p | d_p <= r)$.
 
+Soit un carré de côté $1$, soit un quart de disque de rayon $r = 1$. L'aire du carré s'écrit : Ac = r² = 1
 
-Soit $\pi$ à la n-ième. Soit $P(x_p \text{ dans } \leq r)$.
+L'aire du quart de disque s'écrit : $A_\frac{d} {4}$ = $\frac{\pi r²} {4} = \frac{\pi} {4}$
 
-Soit un carré de côté $A$, soit un quart de disque de rayon $r = 1$. L'aire du carré s'écrit :
+La figure 1 illustre le tirage aléatoire de points $x_p$ de coordonnées $(x_p, y_p)$ où $x_p$ et $y_p$ suivent une loi $U(]0, 1[)$.
 
+La probabilité qu'un point $x_p$ soit dans le quart de disque est :  p($x_p | d_p$ < 1) = $\frac{\pi} {4}$
 
+On effectue $n\_total$ tirs. Si $n\_total$ est grand alors on approche : p($x_p | d_p$ < 1) $ \approx \frac{n\_cible}{n\_total}$ avec $n\_cible$ le nombre de points dans la cible.
 
-L'aire du quart de disque s'écrit :
-
-
-
-Pour illustrer le tirage aléatoire de points $x_p$ de coordonnées $(x_p, y_p)$ où $x_p$ et $y_p$ suivent une loi $U([0, 1[)$.
-
-La probabilité qu'un point $x_p$ soit dans le quart de disque est :
-
-
-
-On effectue $n$ tirs. Si $n$ est grand alors on approche :
-
-
-
-avec $n_{\text{cible}}$ le nombre de points dans la cible.
-
-On peut approcher $\pi$ par :
-
-
+On peut approcher $\pi$ par : $\pi$ = 4*$\frac{n\_cible}{n\_total}$
 
 On écrit l'algorithme permettant de calculer $\pi$ de cette manière :
 </p>
@@ -88,10 +78,16 @@ tant que point < nb_point
 fin tant que
 point = (cmpt / nb_point) * 4
 ```
+<p style="text-align:justify;">
+Ce code commence par initialiser deux variables : cmpt pour compter le nombre de points qui tombent dans le quart de cercle et point pour suivre le nombre total de points générés. Tant que le nombre de points générés est inférieur au nombre total de points souhaité, le code génère un point aléatoire avec des coordonnées x et y dans un carré de dimension 1, où chaque coordonnée est entre 0 et 1. Ensuite, il vérifie si le point tombe dans le quart de cercle. Si c’est le cas, il incrémente le compteur cmpt. Une fois que tous les points ont été générés, le code calcule l'estimation de pi.
+La complexité de ce programme dépend du nombre de points souhaité.
+</p>
 
 ## II. Parallélisation
 
+<p style="text-align:justify;">
 Dans cette partie, nous allons chercher à paralléliser l'algorithme pour calculer pi avec la méthode de Monte Carlo. Pour ce faire, nous allons réaliser un descriptif des tâches, puis nous chercherons à faire plusieurs nouveaux algorithmes afin de trouver la méthode qui semble la plus optimisé en parallélisation.
+</p>
 
 Débutons la parallélisation :
 
