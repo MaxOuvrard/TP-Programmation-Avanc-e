@@ -201,6 +201,10 @@ Maintenant que nous avons vu comment nous pouvions optimiser le code de Monte Ca
 
 ![Diagramme Pi Monte Carlo](img/PiMonteCarlo.png)
 
+Figure 3 - Graphe UML de PiMonteCarlo.java
+
+Voici ce qu'il se passe dans le code :
+
 - **Initialisation** :
   - `PiMonteCarlo` initialisé avec `nThrows` (nombre total de points).
   - `nAtomSuccess` compte les points dans un quart de cercle.
@@ -221,6 +225,34 @@ Maintenant que nous avons vu comment nous pouvions optimiser le code de Monte Ca
 
 ### Analyse Assigment102.java
 
+Voici ce qu'il se passe dans le code :
+
+- **Initialisation** :
+  - `PiMonteCarlo` est initialisé avec `nThrows`, qui représente le nombre total de points à générer, et `nProcessors`, le nombre de processeurs à utiliser pour le calcul parallèle.
+  - `nAtomSuccess` est un compteur qui sert à suivre le nombre de points tombant à l'intérieur d'un quart de cercle.
+
+- **Génération de Points** :
+  - La classe `MonteCarlo`, qui implémente `Runnable`, génère des points aléatoires `(x, y)` dans un carré unité.
+  - Pour chaque point, elle vérifie si `x² + y² ≤ 1`. Si c'est le cas, le point est à l'intérieur du quart de cercle, et `nAtomSuccess` est incrémenté.
+
+- **Exécution Concurrente** :
+  - La méthode `getPi` crée un `ExecutorService` avec un pool de threads utilisant tous les processeurs disponibles pour exécuter les instances de `MonteCarlo`.
+  - Chaque instance de `MonteCarlo` est soumise comme une tâche à l'`ExecutorService`, qui les exécute en parallèle.
+  - Le programme attend que toutes les tâches soient terminées avant de continuer.
+
+- **Calcul de π** :
+  - Une fois toutes les tâches complétées, la valeur de π est estimée en utilisant la formule `4 * (nAtomSuccess / nThrows)`.
+  - Cette formule est basée sur le rapport entre les points à l'intérieur du quart de cercle et le nombre total de points générés.
+
+- **Retour de la Valeur** :
+  - La méthode `getPi` retourne la valeur estimée de π.
+  - Le programme principal affiche cette valeur ainsi que l'erreur par rapport à la valeur réelle de π, et écrit ces informations dans un fichier.
+
+**Différences avec pi.java** :
+
+  ....
+
+
 ## IV. Calcul de performances
 
 Nous venons de définir les conceptions de différents codes parallèles, mais dans le cadre du cours Qualité de Développement et dans l'intérêt de comprendre quelle est la méthode la plus fiable pour calculer pi avec la méthode de Monte Carlo, nous allons réaliser le calcul de performance des différents code.
@@ -229,7 +261,15 @@ Mais comment fait on pour calculer et comparer les performances ?
 
 ![Calcul des performances](img/CalculPerformance.png)
 
-Figure 3 - Speedup (extrait du cours F. Butelle et C. Coti, U. P13)
+Figure 4 - Speedup (extrait du cours F. Butelle et C. Coti, U. P13)
+
+Afin de réaliser nos calculs, nous allons faire des calculs de scalabilité forte et faible.
+
+Scalibité forte : méthode d'évaluation des performances d'un programme en augmentant des processeurs ou ressources en laissant constant le nombre de processus. L'objectif est de mesurer la vitesse du système en fonction du nombre de processus.
+
+Scalabité faible : à l'inverse, cette méthode permet d'évaluer les performances d'un programme en augmentant les processus et en augmentant aussi le nombre de processeurs ou de ressources disponibles. L'objectif est de messurer l'impact de codes et problèmes plus gros.
+
+Enfin pour comparer, nous pourrons observer la moyenne des erreurs observés lors de la scablabilité forte.
 
 Pour rappel, tous les calculs sont effectués sur une machine avec les composants suivants :
 
@@ -263,9 +303,17 @@ Commençons par calculer la scalabilité forte et faible de Pi.java. Pour cela, 
 | 6                         | 1 200 000 000              | 200 000 000               |  
 | 12                        | 1 200 000 000              | 100 000 000               |  
 
+Voici la courbe que nous ont données nos valeurs :
+
 ![Scalabilité Forte Pi](img/Scalabilite_forte_pi.png)
 
+Figure 5 - Scalabité forte de Pi.java
+
+Ici nous pouvons voir que 
+
 ![Scalabilité Faible Pi](img/Scalabilite_faible_pi.png)
+
+Figure 6 - Scalabilité Faible de Pi.java
 
 Passons à présent à Assignment102.java. Pour ce code là, nous allons réaliser des tests jusqu'à 120 000 000 points :
 
@@ -290,17 +338,27 @@ Passons à présent à Assignment102.java. Pour ce code là, nous allons réalis
 
 ![Scalabité Forte Assigment 102](img/Scalabilite_forte_assignements102.png)
 
+Figure 7 - Scalabilité forte de Assignements102.java
+
 ![Scalabité Faible Assigment 102](img/Scalabilite_faible_pi.png)
+
+Figure 8 - Scalabilité faible de Assignements102.java
 
 ## V. Analyse des erreurs
 
 Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans les différents codes testés auparavant.
 
-![Erreur Pi.java]()
+![Erreur Pi.java](img/erreur_pi.png)
 
-![Erreur Assignment102.java]()
+Figure 9 - Erreur de Pi.java
+
+![Erreur Assignment102.java](img/erreur_assignements102.png)
+
+Figure 10 - Erreur de Assignements102.java
 
 ## VI. Socket
+
+Dans cette partie, nous allons nous intéresser à une nouvelle version de la méthode de Monte Carlo en Master / Worker. L'objectif est de faire communiquer par une ip et un port les master / worker afin de réaliser une plus grosse expérience plus tard. Ici, tous les worker seront lancés sur une même machine.
 
 ### Analyse MasterSocket.java
 
@@ -356,11 +414,21 @@ Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans le
 
 ![Scalabilité Forte](img/Scalabilite_forte_ws.png)
 
-![Scalabilté Faible]()
+Figure 11 - Scalabilité forte de WorkerSocket.java
+
+![Scalabilté Faible](img/Scalabilite_faible_ws.png)
+
+Figure 12 - Scalabilité faible de WorkerSocket.java
 
 ### Analyse des erreurs
 
+![Erreur WorkerSocket](img/erreur_socket.png)
+
+Figure 13 - Erreur de WorkerSocket.java
+
 ## VII. Monte Carlo en machine distribué
+
+Dans cette partie, nous allons réaliser un projet avec plus d'ampleur. L'objectif final est de réussir à lancer le projet Master / Worker dans un environnement distribué. Pour cela, nous allons utiliser un Master et plusieurs Worker qui ont tous la même architecture, et qui ne lanceront que ce programme.
 
 ### Analyse du code distribuée
 
@@ -369,6 +437,24 @@ Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans le
 ### Analyse des erreurs
 
 ## VII. Les normes ISO
+
+ATTENTION : Utilisation de l'IA dans un but de reformulation
+
+Dans cette partie dédiée à la Qualité de Développement, nous allons nous intéresser aux normes ISO et IEC.
+
+Tout d'abord, qu'est ce qu'une norme ISO ?
+
+Une norme ISO/IEC est un document établi par l'Organisation internationale de normalisation et la Commission électrotechnique internationale qui spécifie des exigences, ou des caractéristiques pour des produits, des processus ou des services. Ces normes sont élaborées par des experts techniques de comités internationaux et visent à fournir des solutions consensuelles aux exigences du marché mondial. Elles sont conçues pour être utilisées de manière volontaire et servent de référence pour l'amélioration continue de la qualité, de la sécurité, de la fiabilité et de l'interopérabilité des produits et services.
+
+Les normes ISO/IEC sont présentes dans de nombreux secteurs, comme la technologie de l'information, les systèmes de gestion, l'ingénierie, ou encore la santé. Elles sont souvent adoptées par les entreprises et les organisations pour démontrer leur conformité aux meilleures pratiques internationales et pour faciliter le commerce international.
+
+Qu'est ce que la norme ISO 25010 ?
+
+La norme ISO/IEC 25010 définit un modèle de qualité des produits applicable aux produits de technologie de l'information et de la communication et aux produits logiciels. Ce modèle se compose de neuf caractéristiques de qualité qui concernent les propriétés de qualité des produits. Il sert de référence pour spécifier, mesurer et évaluer la qualité des produits tout au long de leur cycle de vie. Les parties prenantes, y compris les développeurs, le personnel de l'assurance qualité et les évaluateurs indépendants, peuvent utiliser ce modèle pour diverses activités telles que la définition des exigences, l'identification des objectifs de conception, les tests, le contrôle de la qualité et l'établissement de critères d'acceptation. L'utilisation de cette norme permet aux clients comme aux entreprises d'avoir une base saine et d'avoir un produit qui convient à tous les parties.
+
+Qu'est ce que la norme IEC 25022 ?
+
+La norme ISO/IEC 25022 propose un ensemble de mesures de qualité en utilisation à utiliser avec le modèle de qualité en utilisation défini dans l'ISO/IEC 25010. Elle fournit des mesures de base pour chaque caractéristique de qualité en utilisation et explique comment mesurer cette qualité. Ces mesures sont applicables à tout système homme-ordinateur et sont principalement destinées à être utilisées pour l'assurance qualité et la gestion des systèmes et produits logiciels en fonction de leurs effets réels lors de leur utilisation. Les principaux utilisateurs de ces mesures sont les personnes impliquées dans le développement, l'acquisition, l'évaluation ou la maintenance des logiciels et systèmes.
 
 ### Quality in Use Model
 
