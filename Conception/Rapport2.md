@@ -191,9 +191,11 @@ Ce code est plus efficace que les autres car chaque worker effectue des calculs 
 
 ## III. Mise en oeuvre
 
-![Diagramme Pi Monte Carlo](img/PiMonteCarlo.png)
+Maintenant que nous avons vu comment nous pouvions optimiser le code de Monte Carlo pour calculer Pi en le parallélisant, nous allons nous pencher sur la conception de deux fichiers : Pi.java et Assignment102.java.
 
 ### Analyse PiMonteCarlo.java
+
+![Diagramme Pi Monte Carlo](img/PiMonteCarlo.png)
 
 - **Initialisation** :
   - `PiMonteCarlo` initialisé avec `nThrows` (nombre total de points).
@@ -217,9 +219,68 @@ Ce code est plus efficace que les autres car chaque worker effectue des calculs 
 
 ## IV. Calcul de performances
 
+Nous venons de définir les conceptions de différents codes parallèles, mais dans le cadre du cours Qualité de Développement et dans l'intérêt de comprendre quelle est la méthode la plus fiable pour calculer pi avec la méthode de Monte Carlo, nous allons réaliser le calcul de performance des différents code.
+
+Mais comment fait on pour calculer et comparer les performances ?
+
+![Calcul des performances]()
+
+Pour rappel, tous les calculs sont effectués sur une machine avec les composants suivants :
+
+- Processeur : Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz   3.60 GHz
+- Mémoire RAM installée : 32,0 Go (31,9 Go utilisable)
+- Nombre de coeurs : 4
+- Threads : 8
+- Fréquence : 3.6 Ghz jusqu’à 4.2
+- Carte graphique : Intel HD graphics 630
+
+Commençons par calculer la scalabilité forte et faible de Pi.java. Pour cela, nous allons réaliser les tests suivants :
+
+| **Nombre de processeurs** | **Nombre total de points** | **Points par processeur** |  
+|---------------------------|----------------------------|---------------------------|  
+| 1                         | 12 000 000                 | 12 000 000                |  
+| 2                         | 12 000 000                 | 6 000 000                 |  
+| 3                         | 12 000 000                 | 4 000 000                 |  
+| 4                         | 12 000 000                 | 3 000 000                 |  
+| 6                         | 12 000 000                 | 2 000 000                 |
+| 12                        | 12 000 000                 | 1 000 000                 | 
+| 1                         | 120 000 000                | 120 000 000               |  
+| 2                         | 120 000 000                | 60 000 000                |  
+| 3                         | 120 000 000                | 40 000 000                |  
+| 4                         | 120 000 000                | 30 000 000                | 
+| 6                         | 120 000 000                | 20 000 000                |  
+| 12                        | 120 000 000                | 10 000 000                |  
+| 1                         | 1 200 000 000              | 1 200 000 000             |  
+| 2                         | 1 200 000 000              | 600 000 000               |  
+| 3                         | 1 200 000 000              | 400 000 000               | 
+| 4                         | 1 200 000 000              | 300 000 000               |  
+| 6                         | 1 200 000 000              | 200 000 000               |  
+| 12                        | 1 200 000 000              | 100 000 000               |  
+
 ![Scalabilité Forte Pi](img/Scalabilite_forte_pi.png)
 
 ![Scalabilité Faible Pi](img/Scalabilite_faible_pi.png)
+
+Passons à présent à Assignment102.java. Pour ce code là, nous allons réaliser des tests jusqu'à 120 000 000 points :
+
+| **Nombre de processeurs** | **Nombre total de points** | **Points par processeur** |  
+|---------------------------|----------------------------|---------------------------|  
+| 1                         | 12 000 000                 | 12 000 000                |  
+| 2                         | 12 000 000                 | 6 000 000                 |  
+| 3                         | 12 000 000                 | 4 000 000                 |  
+| 4                         | 12 000 000                 | 3 000 000                 |  
+| 6                         | 12 000 000                 | 2 000 000                 |
+| 8                         | 12 000 000                 | 1 500 000                 |
+| 10                        | 12 000 000                 | 1 200 000                 |
+| 12                        | 12 000 000                 | 1 000 000                 | 
+| 1                         | 120 000 000                | 120 000 000               |  
+| 2                         | 120 000 000                | 60 000 000                |  
+| 3                         | 120 000 000                | 40 000 000                |  
+| 4                         | 120 000 000                | 30 000 000                | 
+| 6                         | 120 000 000                | 20 000 000                |
+| 8                         | 120 000 000                | 15 000 000                | 
+| 10                        | 120 000 000                | 12 000 000                |   
+| 12                        | 120 000 000                | 10 000 000                |  
 
 ![Scalabité Forte Assigment 102](im/Scalabilite_forte_pi.png)
 
@@ -227,46 +288,85 @@ Ce code est plus efficace que les autres car chaque worker effectue des calculs 
 
 ## V. Analyse des erreurs
 
+Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans les différents codes testés auparavant.
+
+![Erreur Pi.java]()
+
+![Erreur Assignment102.java]()
+
 ## VI. Socket
 
 ### Analyse MasterSocket.java
 
-### 1. Initialisation
+#### 1. Initialisation
 - Le master demande combien de workers (processus) seront utilisés et ouvre un socket pour chacun.
 
-### 2. Distribution des Tâches
+#### 2. Distribution des Tâches
 - Chaque worker reçoit le nombre total de points à générer pour estimer π.
 
-### 3. Calcul par les Workers
+#### 3. Calcul par les Workers
 - Les workers génèrent des points aléatoires dans un carré, comptent ceux qui tombent dans un quart de cercle, et renvoient leurs résultats au master.
 
-### 4. Collecte des Résultats
+#### 4. Collecte des Résultats
 - Le master récupère les résultats des workers et les combine pour estimer π.
 
-### 5. Affichage des Résultats
+#### 5. Affichage des Résultats
 - Le master affiche la valeur de π, l'erreur relative, et les statistiques de performance.
 
-### 6. Fermeture
+#### 6. Fermeture
 - Les sockets entre le master et les workers sont fermés proprement après la simulation.
 
 ### Analyse WorkerSocket.java
 
-### Initialisation 
+#### Initialisation 
   - Le worker s'initialise en configurant un socket serveur sur un port spécifié. Il attend une connexion du master.
 
-### Distribution des Tâches 
+#### Distribution des Tâches 
 - Le worker lit le nombre total de points à générer à partir du master.
 
-### Calcul 
+#### Calcul 
 - Le worker calcule le nombre de points qui tombent dans un quart de cercle en utilisant la méthode de Monte Carlo.
 
-### Collecte des Résultats
+#### Collecte des Résultats
 - Le worker envoie le résultat calculé au master.
 
-### Affichage des Résultats 
+#### Affichage des Résultats 
 - Cette étape est gérée par le master, qui collecte et affiche les résultats finaux.
 
-### Fermeture des Connexions
+#### Fermeture des Connexions
 - Après le calcul et l'envoi des résultats, le worker ferme tous les sockets et flux pour libérer les ressources.
+
+### Calcul de performances
+
+| **Nombre de processeurs** | **Nombre total de points** | **Points par worker**     |  
+|---------------------------|----------------------------|---------------------------|  
+| 1                         | 12 000 000                 | 12 000 000                |  
+| 2                         | 12 000 000                 | 6 000 000                 |  
+| 3                         | 12 000 000                 | 4 000 000                 |  
+| 4                         | 12 000 000                 | 3 000 000                 |  
+| 6                         | 12 000 000                 | 2 000 000                 |
+| 8                         | 12 000 000                 | 1 500 000                 |
+| 10                        | 12 000 000                 | 1 200 000                 |
+| 12                        | 12 000 000                 | 1 000 000                 | 
+
+![Scalabilité Forte]()
+
+![Scalabilté Faible]()
+
+### Analyse des erreurs
+
+## VII. Monte Carlo en machine distribué
+
+### Analyse du code distribuée
+
+### Calcul des performances
+
+### Analyse des erreurs
+
+## VII. Les normes ISO
+
+### Quality in Use Model
+
+### Product Quality Model
 
 ## Conclusion
