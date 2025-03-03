@@ -37,7 +37,9 @@ Dans les casinos, la méthode de Monte Carlo est utilisée pour analyser les pro
 
 A présent penchons nous sur la méthode de Monte Carlo pour calculer pi.
 
-![Quart de cercle](https://via.placeholder.com/150)
+![Quart de cercle](img/QuartDeCercle.jpg)
+
+Figure 1 - Modélisation de Pi Monte Carlo
 
 Pour $\pi$ :
 
@@ -163,7 +165,9 @@ Le Master récupère, combine et finalise les résultats.
 
 Voici un dessin montrant comment fonctionne ce paradigme :
 
-![Dessin paradigme Master/Worker]()
+![Dessin paradigme Master/Worker](img/ParadigmeMW.jpg)
+
+Figure 2 - Modélisation de l'exécution du paradigme Master/Worker
 
 Sur ce schéma, nous pouvons observer que le master est seul et qu'il envoie à plusieurs Worker des données et tâches à réaliser. Une fois ces tâches réalisées par les Workers, ils les renvoient vers le Master qui récolte les données calculées.
 
@@ -223,7 +227,9 @@ Nous venons de définir les conceptions de différents codes parallèles, mais d
 
 Mais comment fait on pour calculer et comparer les performances ?
 
-![Calcul des performances]()
+![Calcul des performances](img/CalculPerformance.png)
+
+Figure 3 - Speedup (extrait du cours F. Butelle et C. Coti, U. P13)
 
 Pour rappel, tous les calculs sont effectués sur une machine avec les composants suivants :
 
@@ -282,9 +288,9 @@ Passons à présent à Assignment102.java. Pour ce code là, nous allons réalis
 | 10                        | 120 000 000                | 12 000 000                |   
 | 12                        | 120 000 000                | 10 000 000                |  
 
-![Scalabité Forte Assigment 102](im/Scalabilite_forte_pi.png)
+![Scalabité Forte Assigment 102](img/Scalabilite_forte_assignements102.png)
 
-![Scalabité Faible Assigment 102](im/Scalabilite_faible_pi.png)
+![Scalabité Faible Assigment 102](img/Scalabilite_faible_pi.png)
 
 ## V. Analyse des erreurs
 
@@ -347,9 +353,8 @@ Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans le
 | 6                         | 12 000 000                 | 2 000 000                 |
 | 8                         | 12 000 000                 | 1 500 000                 |
 | 10                        | 12 000 000                 | 1 200 000                 |
-| 12                        | 12 000 000                 | 1 000 000                 | 
 
-![Scalabilité Forte]()
+![Scalabilité Forte](img/Scalabilite_forte_ws.png)
 
 ![Scalabilté Faible]()
 
