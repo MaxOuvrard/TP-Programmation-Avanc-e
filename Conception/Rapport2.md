@@ -309,7 +309,7 @@ Voici la courbe que nous ont données nos valeurs :
 
 Figure 5 - Scalabité forte de Pi.java
 
-Ici nous pouvons voir que 
+Ici nous pouvons voir que plus l'expérience possède de points, plus le speedup va se rapprocher du speedup linéaire.
 
 ![Scalabilité Faible Pi](img/Scalabilite_faible_pi.png)
 
@@ -340,6 +340,8 @@ Passons à présent à Assignment102.java. Pour ce code là, nous allons réalis
 
 Figure 7 - Scalabilité forte de Assignements102.java
 
+Ici, nous pouvons constater que Pi.java est fortement plus efficace. En effet, ici la courbe descend directement ou stagne alors que pour Pi.java, la courbe augmente fortement avant de stagner.
+
 ![Scalabité Faible Assigment 102](img/Scalabilite_faible_pi.png)
 
 Figure 8 - Scalabilité faible de Assignements102.java
@@ -352,9 +354,13 @@ Dans cette partie, nous allons nous intéresser à l'analyse des erreurs dans le
 
 Figure 9 - Erreur de Pi.java
 
+Dans cette figure, le out-pi1 correspond au fichier avec 120 000 000 points, le fichier out-pi2 avec 1 200 000 000 points et le dernier avec 12 000 000 points. Une fois cela connu, nous pouvons constater que plus il y a de point, moins l'erreur est grande. En effet, car plus l'expérience est grande, plus la précision le sera aussi.
+
 ![Erreur Assignment102.java](img/erreur_assignements102.png)
 
 Figure 10 - Erreur de Assignements102.java
+
+Pour le cas de Assignements102, nous pouvons constater que les erreurs sont sensiblement les mêmes que pour Pi.java.
 
 ## VI. Socket
 
@@ -402,6 +408,8 @@ Dans cette partie, nous allons nous intéresser à une nouvelle version de la m�
 
 ### Calcul de performances
 
+Passons aux expériences de performances pour WorkerSocket :
+
 | **Nombre de processeurs** | **Nombre total de points** | **Points par worker**     |  
 |---------------------------|----------------------------|---------------------------|  
 | 1                         | 12 000 000                 | 12 000 000                |  
@@ -416,11 +424,15 @@ Dans cette partie, nous allons nous intéresser à une nouvelle version de la m�
 
 Figure 11 - Scalabilité forte de WorkerSocket.java
 
+Pour la scalabilité forte de WorkerSocket, on peut voir que la courbe suit fortement la courbe jusqu'à 4 workers mais après la courbe s'éloigne de plus en plus avant de s'effondrer. On peut considérer cela car le processeur a seulement 4 coeurs logiques, donc une fois passer 4 workers, les coeurs sont utilisés par plusieurs processus en même temps.
+
 ![Scalabilté Faible](img/Scalabilite_faible_ws.png)
 
 Figure 12 - Scalabilité faible de WorkerSocket.java
 
 ### Analyse des erreurs
+
+Passons à présent à l'analyse des erreurs de WorkerSocket.
 
 ![Erreur WorkerSocket](img/erreur_socket.png)
 
@@ -432,9 +444,19 @@ Dans cette partie, nous allons réaliser un projet avec plus d'ampleur. L'object
 
 ### Analyse du code distribuée
 
+Dans cette partie, nous allons aborder le même code qu'au dessus mais appliqué à un environnement distribué, c'est à dire sur plusieurs machines. Ici le code a été adapté pour pouvoir communiquer avec les différentes machines de la G26 en prenant en compte une liste d'IP sur lequel envoyer le travail qui doit être effectué par les worker.
+
 ### Calcul des performances
 
-### Analyse des erreurs
+Voici le résultat des expériences réalisés lors de la dernière séance :
+
+![Scalabilité Forte MW distribué](img/Scalabilite_forte_mw.png)
+
+Figure 14 - Scalabilité forte de WorkerSocket en version distribuée
+
+![Scalabilité Faible MW distribué](img/Scalabilite_faible_mw.png)
+
+Figure 15 - Scalabilité faible de WorkerSocket en version distribuée
 
 ## VII. Les normes ISO
 
@@ -455,9 +477,5 @@ La norme ISO/IEC 25010 définit un modèle de qualité des produits applicable a
 Qu'est ce que la norme IEC 25022 ?
 
 La norme ISO/IEC 25022 propose un ensemble de mesures de qualité en utilisation à utiliser avec le modèle de qualité en utilisation défini dans l'ISO/IEC 25010. Elle fournit des mesures de base pour chaque caractéristique de qualité en utilisation et explique comment mesurer cette qualité. Ces mesures sont applicables à tout système homme-ordinateur et sont principalement destinées à être utilisées pour l'assurance qualité et la gestion des systèmes et produits logiciels en fonction de leurs effets réels lors de leur utilisation. Les principaux utilisateurs de ces mesures sont les personnes impliquées dans le développement, l'acquisition, l'évaluation ou la maintenance des logiciels et systèmes.
-
-### Quality in Use Model
-
-### Product Quality Model
 
 ## Conclusion
