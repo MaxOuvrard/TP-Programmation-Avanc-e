@@ -479,3 +479,11 @@ Qu'est ce que la norme IEC 25022 ?
 La norme ISO/IEC 25022 propose un ensemble de mesures de qualité en utilisation à utiliser avec le modèle de qualité en utilisation défini dans l'ISO/IEC 25010. Elle fournit des mesures de base pour chaque caractéristique de qualité en utilisation et explique comment mesurer cette qualité. Ces mesures sont applicables à tout système homme-ordinateur et sont principalement destinées à être utilisées pour l'assurance qualité et la gestion des systèmes et produits logiciels en fonction de leurs effets réels lors de leur utilisation. Les principaux utilisateurs de ces mesures sont les personnes impliquées dans le développement, l'acquisition, l'évaluation ou la maintenance des logiciels et systèmes.
 
 ## Conclusion
+
+Pour conclure, ce rapport, nous avons analysé en profondeur la méthode de Monte Carlo appliquée à l'estimation de π, en étudiant différentes implémentations et optimisations via la parallélisation et la distribution des calculs. Nous avons comparé plusieurs algorithmes, du séquentiel aux modèles parallèles et distribués, notamment via le paradigme Master/Worker et l'utilisation de sockets.
+
+Les tests de performances ont montré que la parallélisation améliore significativement l'efficacité du calcul, bien que l'optimisation certains programme aient une efficacité légerement supérieur au séquentiel. Nous avons pu observer que le paradigme Master/Worker en version distribuée était la plus efficace dans ce contexte. Malgré tout, la méthode de Monte Carlo reste une méthode qui n'est pas efficace pour approximer pi de manière très précise. Nous pourrions ajouter un nombre de points bien supérieur à 64 milliards, nous resterions avec une très grande erreur par rapport à pi.
+
+Enfin, nous avons abordé les normes ISO/IEC relatives à la qualité logicielle, soulignant l'importance d'un développement conforme aux standards pour assurer fiabilité et maintenabilité. Cela nous a permis de définir et de comprendre quels outils ont les développeurs et les clients afin de rendre leurs produits conformes.
+
+Ce rapport ouvre la voie sur une méthode de développement qui devraient être la norme d'ici une dizaine d'années.
