@@ -458,7 +458,7 @@ Figure 14 - Scalabilité forte de WorkerSocket en version distribuée
 
 Figure 15 - Scalabilité faible de WorkerSocket en version distribuée
 
-## VII. Les normes ISO
+## VIII. Les normes ISO
 
 ATTENTION : Utilisation de l'IA dans un but de reformulation
 
